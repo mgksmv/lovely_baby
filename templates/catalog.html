@@ -1,0 +1,110 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}Каталог{% endblock title %}
+
+{% block content %}
+    <section class="products">
+        <div class="cw">
+            <div class="breadcrumbs">
+                <div class="breadcrumbs__container">
+                    <ul class="breadcrumbs__list">
+                        <li class="breadcrumbs__item"><a href="{% url 'home' %}">Главная</a></li>
+                        <li class="breadcrumbs__item active"><a href="#">Каталог</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            {% for category in category_list %}
+                {% if category.product_set.count > 0 %}
+                    <div class="products main">
+                        <div class="cw">
+                            <div class="products__wrapper">
+                                <div class="products__header section-header">
+                                    <h1 class="title">{{ category.name }}</h1>
+                                    <div class="subtitle">{{ category.product_set.count }} позиции</div>
+                                </div>
+                                <div class="products__container">
+
+                                    {% for product in category.product_set.all|slice:'5' %}
+                                        <div class="products__item product">
+                                            <div class="product__container">
+                                                <div class="product__images-container">
+                                                    {% for product_image in product.productimage_set.all|slice:'1' %}
+                                                        <a href="{{ product.get_absolute_url }}" class="product__image">
+                                                            <img src="{{ product_image.image.url }}" alt="Кроватка">
+                                                        </a>
+                                                    {% endfor %}
+                                                    {% if product.productimage_set.count > 1 %}
+                                                        <div class="product__other-images">
+                                                            {% for product_image in product.productimage_set.all|slice:'1:5' %}
+                                                                <div class="product__other-image">
+                                                                    <img src="{{ product_image.image.url }}" alt="кровать">
+                                                                </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+
+                                                <div class="product__info-block">
+                                                    <div class="product__info">
+                                                        <a href="{{ product.get_absolute_url }}" class="product__name">
+                                                            {{ product.name }}
+                                                        </a>
+                                                        <a href="{{ product.collection.get_absolute_url }}" class="product__category">
+                                                            {{ product.collection.name }}
+                                                        </a>
+                                                        <div class="product__price">
+                                                            {{ product.price }}₽
+                                                        </div>
+                                                    </div>
+                                                    <div class="product__links">
+                                                        <a href="{{ product.get_absolute_url }}" class="product__btn btn transparent">Смотреть</a>
+                                                        <a href="" class="product__btn btn">Отправить заявку</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                                    <div class="products__item other-products">
+                                        <div class="other-products__container">
+                                            <img src="{% static 'images/product-5.png' %}" class="other-products__image"
+                                                 alt="Кровать">
+                                            <img src="{% static 'images/product-6.png' %}" class="other-products__image"
+                                                 alt="Кровать">
+                                            <img src="{% static 'images/product-7.png' %}" class="other-products__image"
+                                                 alt="Кровать">
+                                            <a href="{{ category.get_absolute_url }}" class="other-products__show-more btn">
+                                                Смотреть всё
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
+
+    <section class="seo">
+        <div class="cw">
+            <div class="seo__container">
+                <div class="default-text">
+                    <p>Мы постоянно совершенствуем технологические процессы, наращиваем темпы производства и расширяем
+                        ассортимент изготавливаемой продукции, в том числе новых видов отделок и цветов.</p>
+                    <p>Для производства современных мебельных фасадов фабрикой Lovely Baby регулярно привлекаются
+                        дизайнеры.</p>
+                    <p>Клиенты ценят нас за высокое качество продукции, быструю обработку заявок, конкурентоспособные
+                        цены, программы скидок, бонусов и выгодные условия работы. Наши покупатели получают качественную
+                        продукцию, профессиональное консультирование, кратчайшие сроки поставок, в том числе и сложных
+                        позиций.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
