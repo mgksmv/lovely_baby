@@ -129,7 +129,7 @@ class Collection(CommonInfo):
         insert_image = ImageChops.multiply(mask, uploaded_image)
         insert_image = insert_image.resize((width, height))
 
-        template.paste(insert_image, (13, 0), insert_image)
+        template.paste(insert_image, (48, 110), insert_image)
 
         image_io = BytesIO()
         template.save(image_io, 'PNG')
