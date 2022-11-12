@@ -121,12 +121,13 @@ class Collection(CommonInfo):
         template = Image.open(f'{os.path.dirname(__file__)}/collection_templates/template.png').convert('RGBA')
         mask = Image.open(f'{os.path.dirname(__file__)}/collection_templates/mask.png').convert('RGBA')
 
-        image_to_insert = Image.open(self.image)
-        width, height = image_to_insert.size
-        mask = mask.resize((width, height))
+        uploaded_image = Image.open(self.image).convert('RGBA')
 
-        insert_image = ImageChops.multiply(mask, image_to_insert)
-        insert_image = insert_image.resize((660, 594))
+        width, height = mask.size
+        uploaded_image = uploaded_image.resize((width, height))
+
+        insert_image = ImageChops.multiply(mask, uploaded_image)
+        insert_image = insert_image.resize((width, height))
 
         template.paste(insert_image, (13, 0), insert_image)
 
@@ -140,6 +141,7 @@ class Collection(CommonInfo):
 
         new_image = File(image_io, name=f'{image_name}_main_screen.{image_extension}')
         self.image_2 = new_image
+
         super().save(*args, **kwargs)
 
     def __str__(self):
